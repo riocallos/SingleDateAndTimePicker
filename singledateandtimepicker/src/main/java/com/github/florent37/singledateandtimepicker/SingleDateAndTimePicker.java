@@ -3,6 +3,7 @@ package com.github.florent37.singledateandtimepicker;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.github.florent37.singledateandtimepicker.widget.WheelMonthPicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelPicker;
 import com.github.florent37.singledateandtimepicker.widget.WheelYearPicker;
 
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -582,6 +584,14 @@ public class SingleDateAndTimePicker extends LinearLayout {
     private void checkSettings() {
         if (displayDays && (displayDaysOfMonth || displayMonth)) {
             throw new IllegalArgumentException("You can either display days with months or days and months separately");
+        }
+    }
+
+    public void setTypeface(Typeface typeface) {
+        if(typeface != null) {
+            for (WheelPicker picker : pickers) {
+                picker.setTypeface(typeface);
+            }
         }
     }
 

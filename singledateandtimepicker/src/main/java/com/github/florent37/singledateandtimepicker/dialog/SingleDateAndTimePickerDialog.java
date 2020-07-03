@@ -1,6 +1,7 @@
 package com.github.florent37.singledateandtimepicker.dialog;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import com.github.florent37.singledateandtimepicker.R;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.github.florent37.singledateandtimepicker.widget.DateWithLabel;
 
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -33,11 +35,16 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
     @Nullable
     private Integer titleTextSize;
     @Nullable
+    private String ok;
+    @Nullable
     private Integer bottomSheetHeight;
     @Nullable
     private String todayText;
     @Nullable
     private DisplayListener displayListener;
+
+    @Nullable
+    private Typeface typeface;
 
     private SingleDateAndTimePickerDialog(Context context) {
         this(context, false);
@@ -46,6 +53,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
     private SingleDateAndTimePickerDialog(Context context, boolean bottomSheet) {
         final int layout = bottomSheet ? R.layout.bottom_sheet_picker_bottom_sheet :
                 R.layout.bottom_sheet_picker;
+
         this.bottomSheetHelper = new BottomSheetHelper(context, layout);
 
         this.bottomSheetHelper.setListener(new BottomSheetHelper.Listener() {
@@ -78,6 +86,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
                 params.height = bottomSheetHeight;
                 picker.setLayoutParams(params);
             }
+            picker.setTypeface(typeface);
         }
 
         final TextView buttonOk = (TextView) view.findViewById(R.id.buttonOk);
@@ -90,12 +99,20 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
                 }
             });
 
+            if(ok != null) {
+                buttonOk.setText(ok);
+            }
+
             if (mainColor != null) {
                 buttonOk.setTextColor(mainColor);
             }
 
             if (titleTextSize != null) {
                 buttonOk.setTextSize(titleTextSize);
+            }
+
+            if(typeface != null) {
+                buttonOk.setTypeface(typeface);
             }
         }
 
@@ -123,6 +140,10 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
             if (titleTextSize != null) {
                 titleTextView.setTextSize(titleTextSize);
+            }
+
+            if(typeface != null) {
+                titleTextView.setTypeface(typeface);
             }
         }
 
@@ -180,6 +201,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         picker.setDisplayDaysOfMonth(displayDaysOfMonth);
         picker.setDisplayMinutes(displayMinutes);
         picker.setDisplayHours(displayHours);
+        picker.setTypeface(typeface);
     }
 
     public SingleDateAndTimePickerDialog setListener(Listener listener) {
@@ -208,6 +230,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
     public SingleDateAndTimePickerDialog setTitleTextSize(@Nullable Integer titleTextSize) {
         this.titleTextSize = titleTextSize;
+        return this;
+    }
+
+    public SingleDateAndTimePickerDialog setOk(@Nullable String ok) {
+        this.ok = ok;
         return this;
     }
 
@@ -297,6 +324,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    private SingleDateAndTimePickerDialog setTypeface(Typeface typeface) {
+        this.typeface = typeface;
+        return this;
+    }
+
     @Override
     public void display() {
         super.display();
@@ -341,6 +373,9 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
         @Nullable
         private Integer titleTextSize;
+
+        @Nullable
+        private String ok;
 
         @Nullable
         private Integer bottomSheetHeight;
@@ -391,6 +426,9 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         private Locale customLocale;
         private TimeZone timeZone;
 
+        @Nullable
+        private Typeface typeface = null;
+
         public Builder(Context context) {
             this.context = context;
         }
@@ -402,6 +440,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
         public Builder titleTextSize(@Nullable Integer titleTextSize) {
             this.titleTextSize = titleTextSize;
+            return this;
+        }
+
+        public Builder ok(@Nullable String ok) {
+            this.ok = ok;
             return this;
         }
 
@@ -530,9 +573,16 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
+        public Builder typeface(@NonNull Typeface typeface) {
+            this.typeface = typeface;
+            return this;
+        }
+
+
         public SingleDateAndTimePickerDialog build() {
             final SingleDateAndTimePickerDialog dialog = new SingleDateAndTimePickerDialog(context, bottomSheet)
                     .setTitle(title)
+                    .setOk(ok)
                     .setTitleTextSize(titleTextSize)
                     .setBottomSheetHeight(bottomSheetHeight)
                     .setTodayText(todayText)
@@ -552,7 +602,8 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
                     .setDayFormatter(dayFormatter)
                     .setCustomLocale(customLocale)
                     .setMustBeOnFuture(mustBeOnFuture)
-                    .setTimeZone(timeZone);
+                    .setTimeZone(timeZone)
+                    .setTypeface(typeface);
 
             if (mainColor != null) {
                 dialog.setMainColor(mainColor);
@@ -572,6 +623,10 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
             if (isAmPm != null) {
                 dialog.setIsAmPm(isAmPm);
+            }
+
+            if(typeface != null) {
+                dialog.setTypeface(typeface);
             }
 
             return dialog;

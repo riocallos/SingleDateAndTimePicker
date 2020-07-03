@@ -3,8 +3,6 @@ package com.github.florent37.singledateandtimepicker.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import com.github.florent37.singledateandtimepicker.R;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,6 +11,8 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+
+import com.github.florent37.singledateandtimepicker.R;
 
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.DAYS_PADDING;
 
