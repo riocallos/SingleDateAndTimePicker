@@ -1,6 +1,7 @@
 package com.github.florent37.singledateandtimepicker.dialog;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.view.View;
@@ -527,6 +528,9 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
         private Integer titleTextColor = null;
 
         @Nullable
+        private Typeface titleTypeface = null;
+
+        @Nullable
         private Date minDate;
         @Nullable
         private Date maxDate;
@@ -602,6 +606,11 @@ public class DoubleDateAndTimePickerDialog extends BaseDialog {
 
         public DoubleDateAndTimePickerDialog.Builder titleTextColor(@NonNull @ColorInt int titleTextColor) {
             this.titleTextColor = titleTextColor;
+            return this;
+        }
+
+        public DoubleDateAndTimePickerDialog.Builder titleTypeface(@NonNull Typeface titleTypeface) {
+            this.titleTypeface = titleTypeface;
             return this;
         }
 
