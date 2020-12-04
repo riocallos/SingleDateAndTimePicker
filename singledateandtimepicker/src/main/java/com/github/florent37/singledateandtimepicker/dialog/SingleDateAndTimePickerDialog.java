@@ -1,8 +1,13 @@
 package com.github.florent37.singledateandtimepicker.dialog;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.florent37.singledateandtimepicker.DateHelper;
@@ -18,6 +23,7 @@ import java.util.TimeZone;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import static com.github.florent37.singledateandtimepicker.widget.SingleDateAndTimeConstants.STEP_MINUTES_DEFAULT;
 
@@ -33,11 +39,17 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
     @Nullable
     private Integer titleTextSize;
     @Nullable
+    private String ok;
+    @Nullable
+    private String cancel;
+    @Nullable
     private Integer bottomSheetHeight;
     @Nullable
     private String todayText;
     @Nullable
     private DisplayListener displayListener;
+    @Nullable
+    private Typeface typeface;
 
     private SingleDateAndTimePickerDialog(Context context) {
         this(context, false);
@@ -46,6 +58,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
     private SingleDateAndTimePickerDialog(Context context, boolean bottomSheet) {
         final int layout = bottomSheet ? R.layout.bottom_sheet_picker_bottom_sheet :
                 R.layout.bottom_sheet_picker;
+
         this.bottomSheetHelper = new BottomSheetHelper(context, layout);
 
         this.bottomSheetHelper.setListener(new BottomSheetHelper.Listener() {
@@ -68,7 +81,6 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         });
     }
 
-
     private void init(View view) {
         picker = (SingleDateAndTimePicker) view.findViewById(R.id.picker);
         picker.setDateHelper(dateHelper);
@@ -80,23 +92,32 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             }
         }
 
-        final TextView buttonOk = (TextView) view.findViewById(R.id.buttonOk);
-        if (buttonOk != null) {
-            buttonOk.setOnClickListener(new View.OnClickListener() {
+        final Button buttonCancel = view.findViewById(R.id.buttonCancel);
+        if (buttonCancel != null) {
+            buttonCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    okClicked = true;
                     close();
                 }
             });
 
-            if (mainColor != null) {
-                buttonOk.setTextColor(mainColor);
+            if (this.cancel != null) {
+                buttonCancel.setText(this.cancel);
             }
 
+            /*if (mainColor != null) {
+                buttonCancel.setTextColor(mainColor);
+            }*/
+
+/*
             if (titleTextSize != null) {
-                buttonOk.setTextSize(titleTextSize);
+                buttonCancel.setTextSize(titleTextSize);
+            }*/
+
+            if (this.typeface != null) {
+                buttonCancel.setTypeface(this.typeface);
             }
+
         }
 
         final View sheetContentLayout = view.findViewById(R.id.sheetContentLayout);
@@ -113,7 +134,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             }
         }
 
-        final TextView titleTextView = (TextView) view.findViewById(R.id.sheetTitle);
+        final Button titleTextView = view.findViewById(R.id.sheetTitle);
         if (titleTextView != null) {
             titleTextView.setText(title);
 
@@ -124,6 +145,19 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             if (titleTextSize != null) {
                 titleTextView.setTextSize(titleTextSize);
             }
+
+            titleTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    okClicked = true;
+                    close();
+                }
+            });
+
+            if (this.typeface != null) {
+                titleTextView.setTypeface(this.typeface);
+            }
+
         }
 
         picker.setTodayText(new DateWithLabel(todayText, new Date()));
@@ -180,6 +214,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         picker.setDisplayDaysOfMonth(displayDaysOfMonth);
         picker.setDisplayMinutes(displayMinutes);
         picker.setDisplayHours(displayHours);
+        picker.setTypeface(this.typeface);
     }
 
     public SingleDateAndTimePickerDialog setListener(Listener listener) {
@@ -302,6 +337,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         return this;
     }
 
+    private SingleDateAndTimePickerDialog setTypeface(Typeface typeface) {
+        this.typeface = typeface;
+        return this;
+    }
+
     @Override
     public void display() {
         super.display();
@@ -346,6 +386,12 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
         @Nullable
         private Integer titleTextSize;
+
+        @Nullable
+        private String ok;
+
+        @Nullable
+        private String cancel;
 
         @Nullable
         private Integer bottomSheetHeight;
@@ -397,9 +443,13 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         private Locale customLocale;
         private TimeZone timeZone;
 
+        @Nullable
+        private Typeface typeface = null;
+
         public Builder(Context context) {
             this.context = context;
         }
+
 
         public Builder title(@Nullable String title) {
             this.title = title;
@@ -408,6 +458,16 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
         public Builder titleTextSize(@Nullable Integer titleTextSize) {
             this.titleTextSize = titleTextSize;
+            return this;
+        }
+
+        public SingleDateAndTimePickerDialog.Builder ok(@Nullable String ok) {
+            this.ok = ok;
+            return this;
+        }
+
+        public SingleDateAndTimePickerDialog.Builder cancel(@Nullable String cancel) {
+            this.cancel = cancel;
             return this;
         }
 
@@ -536,6 +596,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             return this;
         }
 
+        public SingleDateAndTimePickerDialog.Builder typeface(@NonNull Typeface typeface) {
+            this.typeface = typeface;
+            return this;
+        }
+
         public Builder focusable() {
             this.focusable = true;
             return this;
@@ -584,6 +649,10 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
             if (isAmPm != null) {
                 dialog.setIsAmPm(isAmPm);
+            }
+
+            if (this.typeface != null) {
+                dialog.setTypeface(this.typeface);
             }
 
             return dialog;

@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/bottom_sheet_background"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,18 +23,16 @@
             android:layout_gravity="center"
             android:background="@android:color/white"
             android:elevation="4dp"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
-            <FrameLayout
+            <RelativeLayout
                 android:id="@+id/pickerTitleHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/picker_background"
-                android:layout_marginBottom="20dp"
-                >
+                android:layout_marginBottom="20dp">
 
-                <TextView
+                <Button
                     android:id="@+id/sheetTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -46,9 +43,10 @@
                     android:textColor="@android:color/white"
                     android:textAlignment="viewStart"
                     android:gravity="start"
-                    />
+                    android:background="@drawable/btn_orange"
+                    android:layout_alignParentStart="true" />
 
-            </FrameLayout>
+            </RelativeLayout>
 
             <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
                 android:id="@+id/picker"

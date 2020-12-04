@@ -3,6 +3,7 @@ package com.github.florent37.singledateandtimepicker;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -597,6 +599,18 @@ public class SingleDateAndTimePicker extends LinearLayout {
         if (displayDays && (displayDaysOfMonth || displayMonth)) {
             throw new IllegalArgumentException("You can either display days with months or days and months separately");
         }
+    }
+
+    public void setTypeface(Typeface typeface) {
+        if (typeface != null) {
+            Iterator var2 = this.pickers.iterator();
+
+            while(var2.hasNext()) {
+                WheelPicker picker = (WheelPicker)var2.next();
+                picker.setTypeface(typeface);
+            }
+        }
+
     }
 
     private void init(Context context, AttributeSet attrs) {

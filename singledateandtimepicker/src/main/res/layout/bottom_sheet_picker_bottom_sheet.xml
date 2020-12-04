@@ -30,36 +30,40 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="8dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:paddingBottom="8dp"
                 >
 
-                <TextView
+                <android.widget.Button
                     android:id="@+id/sheetTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|center_vertical"
-                    android:textAlignment="viewStart"
-                    android:gravity="start|center"
-                    android:background="?android:attr/selectableItemBackground"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:background="@drawable/btn_orange"
                     android:text="title here"
-                    android:textColor="@color/picker_button_background_selected"
+                    android:textColor="@android:color/white"
                     android:textStyle="bold"
-                    />
+                    android:textAllCaps="false"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:textSize="16sp"/>
 
-                <TextView
-                    android:id="@+id/buttonOk"
+                <android.widget.Button
+                    android:id="@+id/buttonCancel"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="34dp"
                     android:layout_gravity="end|center_vertical"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:text="@string/ok"
-                    android:textAlignment="viewStart"
-                    android:gravity="start|center"
+                    android:background="@drawable/btn_red"
+                    android:text="@string/cancel"
+                    android:textAlignment="center"
+                    android:gravity="center"
                     android:textAllCaps="true"
-                    android:textColor="@color/picker_button_background_selected"
+                    android:textColor="@android:color/white"
                     android:textStyle="bold"
-                    />
+                    android:textSize="12sp"/>
 
             </FrameLayout>
 
